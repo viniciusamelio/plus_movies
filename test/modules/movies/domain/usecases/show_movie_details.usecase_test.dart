@@ -5,6 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:plus_movies/core/domain/errors/core_error.dart';
 
 import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
+import 'package:plus_movies/modules/movies/domain/errors/errors.dart';
 import 'package:plus_movies/modules/movies/domain/protocols/movies.repository.dart';
 import 'package:plus_movies/modules/movies/domain/usecases/show_movie_details.usecase.dart';
 
@@ -43,6 +44,28 @@ void main() {
       expect(result.isRight(), true);
       expect(dataOrError, isInstanceOf<Movie>());
       verify(() => cacheRepo.find(param)).called(1);
+    });
+    test("Should return movie from network when it is not cached", () async {
+      when(
+        () => cacheRepo.find(any()),
+      ).thenAnswer(
+        (_) async => Left(MovieCacheError()),
+      );
+
+      when(
+        () => networkRepo.find(any()),
+      ).thenAnswer(
+        (_) async => Right(FakeMovie()),
+      );
+      const String param = "123";
+
+      final result = await sut.call(param);
+      final dataOrError = result.getOrElse((l) => throw l);
+
+      expect(result.isRight(), true);
+      expect(dataOrError, isInstanceOf<Movie>());
+      verify(() => cacheRepo.find(param)).called(1);
+      verify(() => networkRepo.find(param)).called(1);
     });
   });
 }
