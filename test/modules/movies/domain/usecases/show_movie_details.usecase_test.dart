@@ -2,12 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/src/either.dart';
 
 import 'package:mocktail/mocktail.dart';
-import 'package:plus_movies/core/domain/errors/core_error.dart';
 
 import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
 import 'package:plus_movies/modules/movies/domain/errors/errors.dart';
 import 'package:plus_movies/modules/movies/domain/protocols/movies.repository.dart';
 import 'package:plus_movies/modules/movies/domain/usecases/show_movie_details.usecase.dart';
+import 'package:plus_movies/core/domain/errors/core_error.dart';
 
 class FakeNetworkMovieRepository extends Mock implements MoviesRepository {}
 
@@ -64,6 +64,31 @@ void main() {
 
       expect(result.isRight(), true);
       expect(dataOrError, isInstanceOf<Movie>());
+      verify(() => cacheRepo.find(param)).called(1);
+      verify(() => networkRepo.find(param)).called(1);
+    });
+    test("Should return left when both network and cache calls fails",
+        () async {
+      when(
+        () => cacheRepo.find(any()),
+      ).thenAnswer(
+        (_) async => Left(MovieCacheError()),
+      );
+
+      when(
+        () => networkRepo.find(any()),
+      ).thenAnswer(
+        (_) async => Left(MovieDataNotFoundError()),
+      );
+      const String param = "123";
+
+      final result = await sut.call(param);
+
+      expect(result.isLeft(), true);
+      result.match(
+        (error) => expect(error, isInstanceOf<CoreError>()),
+        (r) => null,
+      );
       verify(() => cacheRepo.find(param)).called(1);
       verify(() => networkRepo.find(param)).called(1);
     });
