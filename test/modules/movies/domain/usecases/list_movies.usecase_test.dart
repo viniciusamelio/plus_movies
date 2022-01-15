@@ -95,5 +95,16 @@ void main() {
       verify(() => cacheMoviesRepo.findAll()).called(1);
       verify(() => networkMoviesRepo.findAll()).called(1);
     });
+    test('Should retrieve cached movies data when it is storaged', () async {
+      when(
+        () => cacheMoviesRepo.findAll(),
+      ).thenAnswer(
+        (_) async => Right([FakeMovie(), FakeMovie(), FakeMovie()]),
+      );
+
+      final result = await sut.call();
+
+      expect(result.isRight(), equals(true));
+    });
   });
 }
