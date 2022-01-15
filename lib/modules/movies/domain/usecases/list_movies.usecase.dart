@@ -13,7 +13,7 @@ abstract class ListMoviesUsecase {
     required this.cacheRepository,
   });
 
-  Future<Either<CoreError, List<Movie>>> call();
+  Future<Either<CoreError, List<Movie>>> call({useCache = true});
 }
 
 class ListMovies extends ListMoviesUsecase {
@@ -26,9 +26,9 @@ class ListMovies extends ListMoviesUsecase {
         );
 
   @override
-  Future<Either<CoreError, List<Movie>>> call() async {
+  Future<Either<CoreError, List<Movie>>> call({useCache = true}) async {
     final cachedDataOrError = await cacheRepository.findAll();
-    if (cachedDataOrError.isLeft()) {
+    if (!useCache || cachedDataOrError.isLeft()) {
       final networkDataOrError = await networkRepository.findAll();
       return networkDataOrError.fold(
         (error) => Left(error),
@@ -39,8 +39,8 @@ class ListMovies extends ListMoviesUsecase {
       );
     }
     return cachedDataOrError.fold(
-      (error) => left(error),
-      (data) => right(data),
+      (error) => Left(error),
+      (data) => Right(data),
     );
   }
 }
