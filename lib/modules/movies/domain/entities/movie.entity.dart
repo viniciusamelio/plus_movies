@@ -8,7 +8,7 @@ class Movie {
   final String posterPath;
   final String backdropPath;
   final DateTime releaseDate;
-  final int ravenue;
+  final int revenue;
   final List<Genre> genres;
   final List<Company> productionCompanies;
   final List<Professional> cast;
@@ -25,7 +25,7 @@ class Movie {
     required this.posterPath,
     required this.backdropPath,
     required this.releaseDate,
-    required this.ravenue,
+    required this.revenue,
     required this.genres,
     required this.productionCompanies,
     required this.cast,
