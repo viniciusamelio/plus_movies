@@ -5,6 +5,6 @@ abstract class CoreRepository<T> {
   Future<Either<CoreError, T>> create(T entity);
   Future<Either<CoreError, T>> update(T entity);
   Future<Either<CoreError, String>> delete(T entity);
-  Future<Either<CoreError, T>> find(T entity);
+  Future<Either<CoreError, T>> find(String id);
   Future<Either<CoreError, List<T>>> findAll();
 }
