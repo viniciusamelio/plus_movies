@@ -47,8 +47,30 @@ class DioMoviesRepository extends MoviesRepository {
   }
 
   @override
-  Future<Either<CoreError, List<Movie>>> findAll() {
-    // TODO: implement findAll
-    throw UnimplementedError();
+  Future<Either<CoreError, List<Movie>>> findAll() async {
+    dynamic result;
+    try {
+      final data = await _dioService.get("/movie/now-playing");
+      final List<Map<String, dynamic>> movies = data["results"];
+      result = Right(
+        movies
+            .map(
+              (data) => MovieMapper.mapToObject(data),
+            )
+            .toList(),
+      );
+    } on TimeoutException catch (_) {
+      result = Left(
+        RequestTimeoutError(),
+      );
+    } on SocketException catch (_) {
+      result = Left(
+        NetworkConnectionError(),
+      );
+    } catch (_) {
+      result = Right(
+          RepositoryError("Houve um erro ao recuperar os dados do filme"));
+    }
+    return result;
   }
 }
