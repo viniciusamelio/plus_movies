@@ -5,13 +5,10 @@ import 'package:plus_movies/modules/movies/domain/entities/movie.entity.dart';
 import 'package:plus_movies/modules/movies/domain/protocols/protocols.dart';
 
 abstract class ListMoviesUsecase {
-  final MoviesRepository networkRepository;
-  final MoviesRepository cacheRepository;
+  final MoviesRepository _networkRepository;
+  final MoviesRepository _cacheRepository;
 
-  ListMoviesUsecase({
-    required this.networkRepository,
-    required this.cacheRepository,
-  });
+  ListMoviesUsecase(this._networkRepository, this._cacheRepository);
 
   Future<Either<CoreError, List<Movie>>> call({useCache = true});
 }
@@ -21,19 +18,19 @@ class ListMovies extends ListMoviesUsecase {
     required MoviesRepository networkMoviesRepository,
     required MoviesRepository cacheMoviesRepository,
   }) : super(
-          networkRepository: networkMoviesRepository,
-          cacheRepository: cacheMoviesRepository,
+          networkMoviesRepository,
+          cacheMoviesRepository,
         );
 
   @override
   Future<Either<CoreError, List<Movie>>> call({useCache = true}) async {
-    final cachedDataOrError = await cacheRepository.findAll();
+    final cachedDataOrError = await _cacheRepository.findAll();
     if (!useCache || cachedDataOrError.isLeft()) {
-      final networkDataOrError = await networkRepository.findAll();
+      final networkDataOrError = await _networkRepository.findAll();
       return networkDataOrError.fold(
         (error) => Left(error),
         (data) {
-          cacheRepository.createAll(data);
+          _cacheRepository.createAll(data);
           return Right(data);
         },
       );
