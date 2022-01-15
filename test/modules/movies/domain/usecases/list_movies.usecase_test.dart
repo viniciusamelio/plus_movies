@@ -2,12 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fpdart/src/either.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:plus_movies/modules/movies/domain/errors/data_not_found.error.dart';
 
+import 'package:plus_movies/modules/movies/domain/errors/data_not_found.error.dart';
 import 'package:plus_movies/modules/movies/domain/protocols/protocols.dart';
 import 'package:plus_movies/modules/movies/domain/usecases/list_movies.usecase.dart';
 import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
-import 'package:plus_movies/core/domain/errors/errors.dart';
 
 class FakeNetworkMovieRepository extends Mock implements MoviesRepository {}
 
