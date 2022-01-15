@@ -5,13 +5,10 @@ import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
 import 'package:plus_movies/modules/movies/domain/protocols/movies.repository.dart';
 
 abstract class ShowMovieDetailsUsecase {
-  final MoviesRepository networkRepository;
-  final MoviesRepository cacheRepository;
+  final MoviesRepository _networkRepository;
+  final MoviesRepository _cacheRepository;
 
-  ShowMovieDetailsUsecase({
-    required this.networkRepository,
-    required this.cacheRepository,
-  });
+  ShowMovieDetailsUsecase(this._networkRepository, this._cacheRepository);
 
-  Future<Either<CoreError, Movie>> call();
+  Future<Either<CoreError, Movie>> call(String id);
 }
