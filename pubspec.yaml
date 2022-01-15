@@ -37,6 +37,7 @@ dependencies:
   fpdart: ^0.0.12
   mocktail: ^0.2.0
   dio: ^4.0.4
+  get_storage: ^2.0.3
   
 
 dev_dependencies:
