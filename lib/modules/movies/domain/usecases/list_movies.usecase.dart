@@ -15,3 +15,32 @@ abstract class ListMoviesUsecase {
 
   Future<Either<CoreError, List<Movie>>> call();
 }
+
+class ListMovies extends ListMoviesUsecase {
+  ListMovies({
+    required MoviesRepository networkMoviesRepository,
+    required MoviesRepository cacheMoviesRepository,
+  }) : super(
+          networkRepository: networkMoviesRepository,
+          cacheRepository: cacheMoviesRepository,
+        );
+
+  @override
+  Future<Either<CoreError, List<Movie>>> call() async {
+    final cachedDataOrError = await cacheRepository.findAll();
+    if (cachedDataOrError.isLeft()) {
+      final networkDataOrError = await networkRepository.findAll();
+      return networkDataOrError.fold(
+        (error) => Left(error),
+        (data) {
+          cacheRepository.createAll(data);
+          return Right(data);
+        },
+      );
+    }
+    return cachedDataOrError.fold(
+      (error) => left(error),
+      (data) => right(data),
+    );
+  }
+}
