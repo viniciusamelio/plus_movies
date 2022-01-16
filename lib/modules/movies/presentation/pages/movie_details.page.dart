@@ -33,6 +33,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             children: [
               MoviePosterMolecule(
                 movie: movie,
+                mini: true,
               )
             ],
           ),
