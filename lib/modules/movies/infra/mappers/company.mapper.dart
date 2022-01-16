@@ -7,4 +7,9 @@ class CompanyMapper {
       name: map["name"],
     );
   }
+
+  static Map objectToMap(Company company) => {
+        "id": company.id,
+        "name": company.name,
+      };
 }

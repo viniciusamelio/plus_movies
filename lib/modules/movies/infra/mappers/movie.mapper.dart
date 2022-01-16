@@ -25,4 +25,33 @@ class MovieMapper {
         voteCount: map["vote_count"],
         overview: map["overview"]);
   }
+
+  static Map objectToMap(Movie movie) => {
+        "id": movie.id,
+        "budget": movie.budget,
+        "title": movie.title,
+        "original_title": movie.originalTitle,
+        "poster_path": movie.posterPath,
+        "backdrop_path": movie.backdropPath,
+        "release_date": movie.releaseDate,
+        "revenue": movie.revenue,
+        "genres": movie.genres
+            .map(
+              (e) => GenreMapper.objectToMap(e),
+            )
+            .toList(),
+        "production_companies": movie.productionCompanies
+            .map(
+              (e) => CompanyMapper.objectToMap(e),
+            )
+            .toList(),
+        "cast": movie.cast
+            .map(
+              (e) => ProfessionalMapper.objectToMap(e),
+            )
+            .toList(),
+        "vote_avarage": movie.voteAvarage,
+        "vote_count": movie.voteCount,
+        "overview": movie.overview,
+      };
 }
