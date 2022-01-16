@@ -30,7 +30,8 @@ class MoviesListOrganism extends StatelessWidget {
       return _movieListPresenter.listMoviesReaction!.value!.match(
         (l) => Text(l.message),
         (movies) {
-          final filteredMovies = _getFilteredMovies();
+          _movieListPresenter.filteredMovies =
+              _getFilteredMovies().asObservable();
           return Expanded(
             child: RefreshIndicator(
               color: darkGreen01,
@@ -41,13 +42,14 @@ class MoviesListOrganism extends StatelessWidget {
               },
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                itemCount: filteredMovies.length,
+                itemCount: _movieListPresenter.filteredMovies.length,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Hero(
-                    tag: "poster-${filteredMovies[index].id}",
+                    tag:
+                        "poster-${_movieListPresenter.filteredMovies[index].id}",
                     child: MoviePosterMolecule(
-                      movie: filteredMovies[index],
+                      movie: _movieListPresenter.filteredMovies[index],
                     ),
                   ),
                 ),

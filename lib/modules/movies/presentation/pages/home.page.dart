@@ -18,14 +18,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   late final MovieListStore _movieListPresenter;
-  late final TextEditingController _searchBarController;
+
   late final ReactionDisposer _movieListReactionDisposer;
   late final ReactionDisposer _updateMoviesCacheReactionDisposer;
 
   @override
   void initState() {
     _movieListPresenter = movieListStoreContainer();
-    _searchBarController = TextEditingController();
     _initReactions();
     super.initState();
   }
@@ -88,8 +87,7 @@ class _HomePageState extends State<HomePage>
                 height: 24,
               ),
               SearchBarMolecule(
-                controller: _searchBarController,
-                onChanged: (e) {},
+                store: _movieListPresenter,
               ),
               const SizedBox(
                 height: 16,

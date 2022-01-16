@@ -31,6 +31,9 @@ abstract class _MovieListStoreBase with Store implements MovieListPresenter {
   @observable
   ObservableList<Movie> movies = <Movie>[].asObservable();
 
+  @observable
+  ObservableList<Movie> filteredMovies = <Movie>[].asObservable();
+
   @override
   int maxIndex = 3;
 
