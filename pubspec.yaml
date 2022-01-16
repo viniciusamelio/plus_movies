@@ -44,6 +44,7 @@ dependencies:
   kiwi: ^4.0.1
   money_formatter: ^0.0.3
   flutter_typeahead: ^3.2.4
+  cached_network_image: ^3.2.0
   
 
 dev_dependencies:
