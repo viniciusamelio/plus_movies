@@ -1,17 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:mobx/mobx.dart';
 
-import 'package:plus_movies/env.dart';
-import 'package:plus_movies/core/external/dio/dio.dart';
-import 'package:plus_movies/core/infra/services/dio.service.dart';
-import 'package:plus_movies/core/infra/services/get_storage.service.dart';
 import 'package:plus_movies/core/presentation/styles/colors.dart';
 import 'package:plus_movies/modules/movies/di/containers.dart';
-import 'package:plus_movies/modules/movies/domain/usecases/list_movies.usecase.dart';
-import 'package:plus_movies/modules/movies/infra/repositories/cache_movies.repository.dart';
-import 'package:plus_movies/modules/movies/infra/repositories/http_movies.repository.dart';
 import 'package:plus_movies/modules/movies/presentation/stores/movie_list.store.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/molecules.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/organisms/genre_filter.widget.dart';
