@@ -7,13 +7,13 @@ class Movie {
   final String originalTitle;
   final String posterPath;
   final String backdropPath;
-  final DateTime releaseDate;
+  final String releaseDate;
   final int revenue;
   final List<Genre> genres;
   final List<Company> productionCompanies;
   final List<Professional> cast;
   final int? runtime;
-  final double voteAvarage;
+  final double voteAverage;
   final int voteCount;
   final String overview;
 
@@ -30,7 +30,7 @@ class Movie {
     required this.productionCompanies,
     required this.cast,
     this.runtime,
-    required this.voteAvarage,
+    required this.voteAverage,
     required this.voteCount,
     required this.overview,
   });
