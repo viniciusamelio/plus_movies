@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:plus_movies/core/presentation/styles/colors.dart';
 import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
+import 'package:plus_movies/modules/movies/presentation/widgets/molecules/bordered_info_label.widget.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/molecules.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -110,14 +111,14 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FilledInfoLabel(
+                  FilledInfoLabelMolecule(
                     title: "Ano",
                     value: movie.releaseDate.split("-")[0],
                   ),
                   const SizedBox(
                     width: 12,
                   ),
-                  FilledInfoLabel(
+                  FilledInfoLabelMolecule(
                     title: "Duração",
                     value: durationToString(
                       movie.runtime!,
@@ -137,7 +138,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         padding: const EdgeInsets.only(
                           left: 8.0,
                         ),
-                        child: BorderedInfoLabel(
+                        child: BorderedInfoLabelMolecule(
                           value: e.name,
                         ),
                       ),
@@ -174,7 +175,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: FilledInfoLabel(
+                    child: FilledInfoLabelMolecule(
                       title: "Orçamento",
                       value: MoneyFormatter(
                         amount: movie.revenue.toDouble(),
@@ -186,7 +187,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: FilledInfoLabel(
+                    child: FilledInfoLabelMolecule(
                       title: "Produtora",
                       value: movie.productionCompanies[0].name,
                     ),
@@ -276,44 +277,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   }
 }
 
-class BorderedInfoLabel extends StatelessWidget {
-  final String value;
-  const BorderedInfoLabel({
-    Key? key,
-    required this.value,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 8,
-        horizontal: 10,
-      ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            5,
-          ),
-          border: Border.all(
-            color: gray07,
-            width: 1,
-          )),
-      child: Text(
-        value,
-        style: const TextStyle(
-          color: gray02,
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-class FilledInfoLabel extends StatelessWidget {
+class FilledInfoLabelMolecule extends StatelessWidget {
   final String title;
   final String value;
-  const FilledInfoLabel({
+  const FilledInfoLabelMolecule({
     Key? key,
     required this.title,
     required this.value,
