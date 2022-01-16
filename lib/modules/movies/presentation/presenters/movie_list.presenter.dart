@@ -6,5 +6,5 @@ abstract class MovieListPresenter {
   int maxIndex = 3;
   void selectGenre(int index);
   final ListMoviesUsecase listMoviesUsecase;
-  dynamic listMovies();
+  dynamic listMovies({bool useCache = true});
 }
