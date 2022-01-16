@@ -26,6 +26,11 @@ class _HomePageState extends State<HomePage>
   void initState() {
     _movieListPresenter = movieListStoreContainer();
     _searchBarController = TextEditingController();
+    _initReactions();
+    super.initState();
+  }
+
+  void _initReactions() {
     _movieListReactionDisposer =
         reaction((_) => _movieListPresenter.listMoviesReaction?.status, (_) {
       if (_movieListPresenter.listMoviesReaction?.status ==
@@ -49,7 +54,6 @@ class _HomePageState extends State<HomePage>
             .asObservable();
       }
     });
-    super.initState();
   }
 
   @override
