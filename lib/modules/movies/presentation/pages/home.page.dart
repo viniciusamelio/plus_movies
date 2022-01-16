@@ -14,7 +14,6 @@ import 'package:plus_movies/modules/movies/domain/usecases/list_movies.usecase.d
 import 'package:plus_movies/modules/movies/infra/repositories/cache_movies.repository.dart';
 import 'package:plus_movies/modules/movies/infra/repositories/http_movies.repository.dart';
 import 'package:plus_movies/modules/movies/presentation/stores/movie_list.store.dart';
-import 'package:plus_movies/modules/movies/presentation/widgets/molecules/genre_label.widget.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/molecules.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/organisms/genre_filter.widget.dart';
 
