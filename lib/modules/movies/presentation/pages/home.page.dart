@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobx/mobx.dart';
 
@@ -15,6 +14,7 @@ import 'package:plus_movies/modules/movies/infra/repositories/http_movies.reposi
 import 'package:plus_movies/modules/movies/presentation/stores/movie_list.store.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/molecules.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/organisms/genre_filter.widget.dart';
+import 'package:plus_movies/modules/movies/presentation/widgets/organisms/movies_list.widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -95,28 +95,23 @@ class _HomePageState extends State<HomePage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Filmes",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      color: gray01,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  SearchBarMolecule(
-                    controller: _searchBarController,
-                    onChanged: (e) {},
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                ],
+              const Text(
+                "Filmes",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  color: gray01,
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              SearchBarMolecule(
+                controller: _searchBarController,
+                onChanged: (e) {},
+              ),
+              const SizedBox(
+                height: 16,
               ),
               GenreFilterOrganism(
                 movieListPresenter: _movieListPresenter,
@@ -124,52 +119,7 @@ class _HomePageState extends State<HomePage>
               const SizedBox(
                 height: 40,
               ),
-              Observer(builder: (_) {
-                if (_movieListPresenter.listMoviesReaction == null ||
-                    _movieListPresenter.listMoviesReaction?.status ==
-                        FutureStatus.pending) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ),
-                  );
-                }
-                return _movieListPresenter.listMoviesReaction!.value!.match(
-                  (l) => Text(l.message),
-                  (movies) {
-                    final filteredMovies = _movieListPresenter.movies.where(
-                      (movie) {
-                        final elementsMatching = movie.genres.where(
-                          (genre) =>
-                              genre.name == _movieListPresenter.selectedGenre,
-                        );
-                        return elementsMatching.isNotEmpty;
-                      },
-                    ).toList();
-                    return Expanded(
-                      child: RefreshIndicator(
-                        color: darkGreen01,
-                        onRefresh: () async {
-                          _movieListPresenter.updateMoviesCache();
-                          await _movieListPresenter.updateMoviesCacheReaction!
-                              .whenComplete(() => null);
-                        },
-                        child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          // primary: true,
-                          itemCount: filteredMovies.length,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: MoviePosterMolecule(
-                              movie: filteredMovies[index],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              })
+              MoviesListOrganism(movieListPresenter: _movieListPresenter)
             ],
           ),
         ),
