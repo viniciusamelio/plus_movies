@@ -305,6 +305,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.0"
   io:
     dependency: transitive
     description:
@@ -389,6 +396,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  money_formatter:
+    dependency: "direct main"
+    description:
+      name: money_formatter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   node_preamble:
     dependency: transitive
     description:
