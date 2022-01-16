@@ -1,7 +1,18 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:mobx/mobx.dart';
+
+import 'package:plus_movies/core/external/dio/dio.dart';
+import 'package:plus_movies/core/infra/services/dio.service.dart';
+import 'package:plus_movies/core/infra/services/get_storage.service.dart';
 import 'package:plus_movies/core/presentation/styles/colors.dart';
-import 'package:plus_movies/modules/movies/presentation/presenters/movie_list.presenter.dart';
+import 'package:plus_movies/env.dart';
+import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
+import 'package:plus_movies/modules/movies/domain/usecases/list_movies.usecase.dart';
+import 'package:plus_movies/modules/movies/infra/repositories/cache_movies.repository.dart';
+import 'package:plus_movies/modules/movies/infra/repositories/http_movies.repository.dart';
 import 'package:plus_movies/modules/movies/presentation/stores/movie_list.store.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,12 +24,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
-  late final MovieListPresenter _movieListPresenter;
+  late final MovieListStore _movieListPresenter;
   late final TextEditingController _searchBarController;
 
   @override
   void initState() {
-    _movieListPresenter = MovieListStore();
+    _movieListPresenter = MovieListStore(
+      ListMovies(
+        cacheMoviesRepository: CacheMoviesRepository(
+          GetStorageService(
+            GetStorage(),
+          ),
+        ),
+        networkMoviesRepository: HttpMoviesRepository(
+          DioService(
+            CustomDio(BaseOptions(
+              baseUrl: movieDBBaseUrl,
+            )),
+          ),
+        ),
+      ),
+    );
     _searchBarController = TextEditingController();
     super.initState();
   }
@@ -88,26 +114,35 @@ class _HomePageState extends State<HomePage>
               const SizedBox(
                 height: 40,
               ),
-              Expanded(
-                child: ListView(
-                  physics: const BouncingScrollPhysics(),
-                  primary: true,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: MoviePosterMolecule(),
+              Observer(builder: (_) {
+                if (_movieListPresenter.listMoviesReaction == null ||
+                    _movieListPresenter.listMoviesReaction?.status ==
+                        FutureStatus.pending) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: MoviePosterMolecule(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: MoviePosterMolecule(),
-                    )
-                  ],
-                ),
-              )
+                  );
+                }
+                return _movieListPresenter.listMoviesReaction!.value!.match(
+                  (l) => Text(l.message),
+                  (movies) {
+                    return Expanded(
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        primary: true,
+                        itemCount: movies.length,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: MoviePosterMolecule(
+                            movie: movies[index],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              })
             ],
           ),
         ),
@@ -155,8 +190,10 @@ class SearchBarMolecule extends StatelessWidget {
 }
 
 class MoviePosterMolecule extends StatelessWidget {
+  final Movie movie;
   const MoviePosterMolecule({
     Key? key,
+    required this.movie,
   }) : super(key: key);
 
   @override
@@ -166,10 +203,10 @@ class MoviePosterMolecule extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        image: const DecorationImage(
+        image: DecorationImage(
           fit: BoxFit.fill,
           image: NetworkImage(
-            "https://i.pinimg.com/originals/ab/9b/85/ab9b85275c92f13d087079c47fe00899.jpg",
+            "$movieDBImageBaseUrl${movie.posterPath}",
           ),
         ),
       ),
