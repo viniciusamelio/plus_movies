@@ -2,17 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fpdart/fpdart.dart';
+
 import 'package:plus_movies/core/domain/errors/errors.dart';
 import 'package:plus_movies/core/infra/errors/errors.dart';
-import 'package:plus_movies/core/infra/services/dio.service.dart';
+import 'package:plus_movies/core/infra/services/http.service.dart';
 import 'package:plus_movies/modules/movies/domain/entities/movie.entity.dart';
 import 'package:plus_movies/modules/movies/domain/protocols/movies.repository.dart';
 import 'package:plus_movies/modules/movies/infra/mappers/movie.mapper.dart';
 
-class DioMoviesRepository extends MoviesRepository {
-  final DioService _dioService;
+class HttpMoviesRepository extends MoviesRepository {
+  final HttpService _dioService;
 
-  DioMoviesRepository(this._dioService);
+  HttpMoviesRepository(this._dioService);
   @override
   Future<Either<CoreError, Movie>> create(Movie entity) async {
     throw UnimplementedError();
