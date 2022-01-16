@@ -14,6 +14,7 @@ import 'package:plus_movies/modules/movies/domain/usecases/list_movies.usecase.d
 import 'package:plus_movies/modules/movies/infra/repositories/cache_movies.repository.dart';
 import 'package:plus_movies/modules/movies/infra/repositories/http_movies.repository.dart';
 import 'package:plus_movies/modules/movies/presentation/stores/movie_list.store.dart';
+import 'package:plus_movies/modules/movies/presentation/widgets/molecules/molecules.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -110,6 +111,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   SearchBarMolecule(
                     controller: _searchBarController,
+                    onChanged: (e) {},
                   ),
                   const SizedBox(
                     height: 16,
@@ -201,41 +203,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class SearchBarMolecule extends StatelessWidget {
-  final TextEditingController controller;
-  const SearchBarMolecule({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      style: const TextStyle(
-        fontWeight: FontWeight.w400,
-      ),
-      decoration: InputDecoration(
-        label: const Text("Pesquise filmes"),
-        labelStyle: const TextStyle(
-          fontWeight: FontWeight.w400,
-        ),
-        isDense: true,
-        prefixIcon: GestureDetector(
-          child: const Icon(
-            Icons.search,
-            size: 18,
-          ),
-        ),
-        prefixIconConstraints: const BoxConstraints(
-          minWidth: 38,
-          minHeight: 28,
-        ),
-      ),
-    );
-  }
 }
 
 class MoviePosterMolecule extends StatelessWidget {
