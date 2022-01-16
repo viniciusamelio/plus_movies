@@ -3,4 +3,4 @@ targets:
     builders:
       mobx_codegen|mobx_generator:
         generate_for:
-          - "lib/**_store.dart"
+          - "lib/**.store.dart"
