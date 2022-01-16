@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:plus_movies/core/presentation/styles/colors.dart';
 
 final theme = ThemeData(
   backgroundColor: Colors.white,
-  fontFamily: "Montserrat",
+  fontFamily: GoogleFonts.montserrat().fontFamily,
   colorScheme: const ColorScheme(
     background: bgLight,
     secondary: darkGreen01,
