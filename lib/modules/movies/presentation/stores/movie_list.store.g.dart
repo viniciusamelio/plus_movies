@@ -25,6 +25,23 @@ mixin _$MovieListStore on _MovieListStoreBase, Store {
     });
   }
 
+  final _$listMoviesReactionAtom =
+      Atom(name: '_MovieListStoreBase.listMoviesReaction');
+
+  @override
+  ObservableFuture<Either<CoreError, List<Movie>>>? get listMoviesReaction {
+    _$listMoviesReactionAtom.reportRead();
+    return super.listMoviesReaction;
+  }
+
+  @override
+  set listMoviesReaction(
+      ObservableFuture<Either<CoreError, List<Movie>>>? value) {
+    _$listMoviesReactionAtom.reportWrite(value, super.listMoviesReaction, () {
+      super.listMoviesReaction = value;
+    });
+  }
+
   final _$_MovieListStoreBaseActionController =
       ActionController(name: '_MovieListStoreBase');
 
@@ -40,9 +57,21 @@ mixin _$MovieListStore on _MovieListStoreBase, Store {
   }
 
   @override
+  void listMovies() {
+    final _$actionInfo = _$_MovieListStoreBaseActionController.startAction(
+        name: '_MovieListStoreBase.listMovies');
+    try {
+      return super.listMovies();
+    } finally {
+      _$_MovieListStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-selectedGenreIndex: ${selectedGenreIndex}
+selectedGenreIndex: ${selectedGenreIndex},
+listMoviesReaction: ${listMoviesReaction}
     ''';
   }
 }
