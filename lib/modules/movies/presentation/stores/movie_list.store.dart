@@ -23,18 +23,35 @@ abstract class _MovieListStoreBase with Store implements MovieListPresenter {
   @observable
   ObservableFuture<Either<CoreError, List<Movie>>>? listMoviesReaction;
 
+  @observable
+  ObservableList<Movie> movies = <Movie>[].asObservable();
+
   @override
   int maxIndex = 3;
+
+  @observable
+  String selectedGenre = "Ação";
+
+  List<String> genres = [
+    "Ação",
+    "Aventura",
+    "Fantasia",
+    "Comédia",
+  ];
 
   @override
   @action
   void selectGenre(int index) {
-    if (index <= maxIndex) selectedGenreIndex = index;
+    if (index <= maxIndex) {
+      selectedGenreIndex = index;
+      selectedGenre = genres[index];
+    }
   }
 
   @override
   @action
-  void listMovies() {
-    listMoviesReaction = listMoviesUsecase.call().asObservable();
+  void listMovies({bool useCache = true}) {
+    listMoviesReaction =
+        listMoviesUsecase.call(useCache: useCache).asObservable();
   }
 }

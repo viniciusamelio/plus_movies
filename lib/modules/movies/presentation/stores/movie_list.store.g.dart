@@ -42,6 +42,36 @@ mixin _$MovieListStore on _MovieListStoreBase, Store {
     });
   }
 
+  final _$moviesAtom = Atom(name: '_MovieListStoreBase.movies');
+
+  @override
+  ObservableList<Movie> get movies {
+    _$moviesAtom.reportRead();
+    return super.movies;
+  }
+
+  @override
+  set movies(ObservableList<Movie> value) {
+    _$moviesAtom.reportWrite(value, super.movies, () {
+      super.movies = value;
+    });
+  }
+
+  final _$selectedGenreAtom = Atom(name: '_MovieListStoreBase.selectedGenre');
+
+  @override
+  String get selectedGenre {
+    _$selectedGenreAtom.reportRead();
+    return super.selectedGenre;
+  }
+
+  @override
+  set selectedGenre(String value) {
+    _$selectedGenreAtom.reportWrite(value, super.selectedGenre, () {
+      super.selectedGenre = value;
+    });
+  }
+
   final _$_MovieListStoreBaseActionController =
       ActionController(name: '_MovieListStoreBase');
 
@@ -57,11 +87,11 @@ mixin _$MovieListStore on _MovieListStoreBase, Store {
   }
 
   @override
-  void listMovies() {
+  void listMovies({bool useCache = true}) {
     final _$actionInfo = _$_MovieListStoreBaseActionController.startAction(
         name: '_MovieListStoreBase.listMovies');
     try {
-      return super.listMovies();
+      return super.listMovies(useCache: useCache);
     } finally {
       _$_MovieListStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -71,7 +101,9 @@ mixin _$MovieListStore on _MovieListStoreBase, Store {
   String toString() {
     return '''
 selectedGenreIndex: ${selectedGenreIndex},
-listMoviesReaction: ${listMoviesReaction}
+listMoviesReaction: ${listMoviesReaction},
+movies: ${movies},
+selectedGenre: ${selectedGenre}
     ''';
   }
 }
