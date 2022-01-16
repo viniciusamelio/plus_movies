@@ -198,6 +198,13 @@ class MoviePosterMolecule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String movieGenres = movie.genres
+        .map((e) => e.name + " - ")
+        .toString()
+        .replaceAll("(", "")
+        .replaceAll(")", "")
+        .replaceAll(",", "");
+    movieGenres = movieGenres.substring(0, movieGenres.length - 2);
     return Container(
       height: MediaQuery.of(context).size.height * .62,
       width: MediaQuery.of(context).size.width,
@@ -232,31 +239,34 @@ class MoviePosterMolecule extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 24,
-                vertical: 12,
+                vertical: 0,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
+                children: [
                   Text(
-                    "Alita: Anjo de Combate",
-                    style: TextStyle(
+                    movie.title,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
                   Text(
-                    "Ação - Aventura",
-                    style: TextStyle(
+                    movieGenres,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  const SizedBox(
+                    height: 32,
+                  )
                 ],
               ),
             ),
