@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:plus_movies/core/external/dio/dio.dart';
 import 'package:plus_movies/core/infra/services/http.service.dart';
 
@@ -10,13 +9,7 @@ class DioService implements HttpService {
   @override
   Future<dynamic> get(String path, {Map<String, dynamic>? options}) async {
     try {
-      final result = await _dio.get(
-        path,
-        options: Options(
-          extra: options?["extra"],
-          headers: options?["headers"],
-        ),
-      );
+      final result = await _dio.get(path);
       return result.data;
     } catch (e) {
       rethrow;
