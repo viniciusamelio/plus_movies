@@ -49,17 +49,22 @@ class HttpMoviesRepository extends MoviesRepository {
 
   @override
   Future<Either<CoreError, List<Movie>>> findAll() async {
-    dynamic result;
+    Either<CoreError, List<Movie>> result;
     try {
-      final data = await _dioService.get("/movie/now-playing");
-      final List<Map<String, dynamic>> movies = data["results"];
-      result = Right(
-        movies
-            .map(
-              (data) => MovieMapper.mapToObject(data),
-            )
-            .toList(),
-      );
+      final data = await _dioService.get("/movie/now_playing");
+      final List<dynamic> movies = [];
+      for (var movie in data["results"]) {
+        final movieDetails = await _dioService.get("/movie/${movie['id']}");
+        final credits = await _dioService.get("/movie/${movie['id']}/credits");
+        movieDetails["cast"] = credits["cast"];
+        movies.add(movieDetails);
+      }
+      final List<Movie> moviesResult = movies
+          .map(
+            (data) => MovieMapper.mapToObject(data),
+          )
+          .toList();
+      result = right(moviesResult);
     } on TimeoutException catch (_) {
       result = Left(
         RequestTimeoutError(),
@@ -69,8 +74,8 @@ class HttpMoviesRepository extends MoviesRepository {
         NetworkConnectionError(),
       );
     } catch (_) {
-      result = Right(
-          RepositoryError("Houve um erro ao recuperar os dados do filme"));
+      result =
+          Left(RepositoryError("Houve um erro ao recuperar os dados do filme"));
     }
     return result;
   }
