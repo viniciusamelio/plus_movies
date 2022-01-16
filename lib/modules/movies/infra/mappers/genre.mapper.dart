@@ -7,4 +7,11 @@ class GenreMapper {
       name: map["name"],
     );
   }
+
+  static Map objectToMap(Genre genre) {
+    return {
+      "id": genre.id,
+      "name": genre.name,
+    };
+  }
 }
