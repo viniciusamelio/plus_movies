@@ -5,9 +5,9 @@ import 'package:plus_movies/modules/movies/infra/mappers/professional.mapper.dar
 
 class MovieMapper {
   static Movie mapToObject(Map<String, dynamic> map) {
-    final List<Map<String, dynamic>> genres = map["genres"];
-    final List<Map<String, dynamic>> companies = map["production_companies"];
-    final List<Map<String, dynamic>> cast = map["cast"];
+    final List<dynamic> genres = map["genres"];
+    final List<dynamic> companies = map["production_companies"];
+    final List<dynamic> cast = map["cast"];
     return Movie(
         id: map["id"],
         budget: map["budget"],
@@ -21,7 +21,7 @@ class MovieMapper {
         productionCompanies:
             companies.map((e) => CompanyMapper.mapToObject(e)).toList(),
         cast: cast.map((e) => ProfessionalMapper.mapToObject(e)).toList(),
-        voteAvarage: map["vote_avarage"],
+        voteAverage: map["vote_average"],
         voteCount: map["vote_count"],
         overview: map["overview"]);
   }
@@ -50,7 +50,7 @@ class MovieMapper {
               (e) => ProfessionalMapper.objectToMap(e),
             )
             .toList(),
-        "vote_avarage": movie.voteAvarage,
+        "vote_average": movie.voteAverage,
         "vote_count": movie.voteCount,
         "overview": movie.overview,
       };
