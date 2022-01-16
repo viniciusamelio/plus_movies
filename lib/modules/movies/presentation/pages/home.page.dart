@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   late final MovieListStore _movieListPresenter;
   late final TextEditingController _searchBarController;
+  late final ReactionDisposer _movieListReactionDisposer;
 
   @override
   void initState() {
@@ -46,7 +47,24 @@ class _HomePageState extends State<HomePage>
       ),
     );
     _searchBarController = TextEditingController();
+    _movieListReactionDisposer =
+        reaction((_) => _movieListPresenter.listMoviesReaction?.status, (_) {
+      if (_movieListPresenter.listMoviesReaction?.status ==
+          FutureStatus.fulfilled) {
+        _movieListPresenter.movies = _movieListPresenter
+            .listMoviesReaction!.value!
+            .getOrElse((l) => [])
+            .asObservable();
+        _movieListPresenter.selectGenre(0);
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _movieListReactionDisposer();
+    super.dispose();
   }
 
   @override
@@ -127,15 +145,24 @@ class _HomePageState extends State<HomePage>
                 return _movieListPresenter.listMoviesReaction!.value!.match(
                   (l) => Text(l.message),
                   (movies) {
+                    final filteredMovies = _movieListPresenter.movies.where(
+                      (element) {
+                        final elementsMatching = element.genres.where(
+                          (element) =>
+                              element.name == _movieListPresenter.selectedGenre,
+                        );
+                        return elementsMatching.isNotEmpty;
+                      },
+                    ).toList();
                     return Expanded(
                       child: ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         primary: true,
-                        itemCount: movies.length,
+                        itemCount: filteredMovies.length,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: MoviePosterMolecule(
-                            movie: movies[index],
+                            movie: filteredMovies[index],
                           ),
                         ),
                       ),
