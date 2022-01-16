@@ -3,7 +3,7 @@ import 'package:plus_movies/core/infra/services/cache.service.dart';
 
 class GetStorageService implements CacheService {
   final GetStorage _storage;
-
+  final String prefix = "movie";
   GetStorageService(this._storage);
 
   static void init() async {
@@ -12,12 +12,12 @@ class GetStorageService implements CacheService {
 
   @override
   void delete(String key) {
-    _storage.remove(key);
+    _storage.remove("$prefix-$key");
   }
 
   @override
   find(String key) {
-    return _storage.read(key);
+    return _storage.read("$prefix-$key");
   }
 
   @override
@@ -27,6 +27,6 @@ class GetStorageService implements CacheService {
 
   @override
   void save(String key, value) {
-    _storage.write(key, value);
+    _storage.write("$prefix-$key", value);
   }
 }
