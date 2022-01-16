@@ -16,10 +16,12 @@ class MoviePosterMolecule extends StatelessWidget {
   Widget build(BuildContext context) {
     String movieGenres = _cleanMovieGenresString();
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(
-        MovieDetailsPage.routeName,
-        arguments: movie,
-      ),
+      onTap: () => !mini
+          ? Navigator.of(context).pushNamed(
+              MovieDetailsPage.routeName,
+              arguments: movie,
+            )
+          : null,
       child: Center(
         child: Container(
           height: !mini
