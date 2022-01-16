@@ -16,6 +16,7 @@ import 'package:plus_movies/modules/movies/infra/repositories/http_movies.reposi
 import 'package:plus_movies/modules/movies/presentation/stores/movie_list.store.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/genre_label.widget.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/molecules.dart';
+import 'package:plus_movies/modules/movies/presentation/widgets/organisms/genre_filter.widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -119,33 +120,9 @@ class _HomePageState extends State<HomePage>
                   ),
                 ],
               ),
-              Observer(builder: (_) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GenreLabelMolecule(
-                      title: "Ação",
-                      onTap: () => _movieListPresenter.selectGenre(0),
-                      isSelected: _movieListPresenter.selectedGenreIndex == 0,
-                    ),
-                    GenreLabelMolecule(
-                      title: "Aventura",
-                      onTap: () => _movieListPresenter.selectGenre(1),
-                      isSelected: _movieListPresenter.selectedGenreIndex == 1,
-                    ),
-                    GenreLabelMolecule(
-                      title: "Fantasia",
-                      onTap: () => _movieListPresenter.selectGenre(2),
-                      isSelected: _movieListPresenter.selectedGenreIndex == 2,
-                    ),
-                    GenreLabelMolecule(
-                      title: "Comédia",
-                      onTap: () => _movieListPresenter.selectGenre(3),
-                      isSelected: _movieListPresenter.selectedGenreIndex == 3,
-                    ),
-                  ],
-                );
-              }),
+              GenreFilterOrganism(
+                movieListPresenter: _movieListPresenter,
+              ),
               const SizedBox(
                 height: 40,
               ),
