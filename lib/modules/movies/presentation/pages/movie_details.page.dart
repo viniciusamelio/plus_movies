@@ -43,9 +43,12 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               const SizedBox(
                 height: 56,
               ),
-              MoviePosterMolecule(
-                movie: movie,
-                mini: true,
+              Hero(
+                tag: "poster-${movie.id}",
+                child: MoviePosterMolecule(
+                  movie: movie,
+                  mini: true,
+                ),
               ),
               const SizedBox(
                 height: 32,

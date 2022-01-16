@@ -44,8 +44,11 @@ class MoviesListOrganism extends StatelessWidget {
                 itemCount: filteredMovies.length,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: MoviePosterMolecule(
-                    movie: filteredMovies[index],
+                  child: Hero(
+                    tag: "poster-${filteredMovies[index].id}",
+                    child: MoviePosterMolecule(
+                      movie: filteredMovies[index],
+                    ),
                   ),
                 ),
               ),
