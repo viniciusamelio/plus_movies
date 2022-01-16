@@ -23,3 +23,7 @@ const Color gray08 = Color(
 const Color gray03 = Color(
   0xFF868E96,
 );
+
+const Color gray07 = Color(
+  0xFFE9ECEF,
+);
