@@ -58,7 +58,8 @@ class CacheMoviesRepository extends MoviesRepository {
   @override
   Future<Either<CoreError, List<Movie>>> findAll() async {
     try {
-      final List<Map<String, dynamic>> values = await _cacheService.findAll();
+      final Iterable values = await _cacheService.findAll();
+      if (values.isEmpty) return Left(CacheRetrieveError());
       return Right(
         values
             .map(
