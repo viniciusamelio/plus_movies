@@ -8,6 +8,7 @@ import 'package:plus_movies/core/external/dio/dio.dart';
 import 'package:plus_movies/core/infra/services/dio.service.dart';
 import 'package:plus_movies/core/infra/services/get_storage.service.dart';
 import 'package:plus_movies/core/presentation/styles/colors.dart';
+import 'package:plus_movies/modules/movies/di/containers.dart';
 import 'package:plus_movies/modules/movies/domain/usecases/list_movies.usecase.dart';
 import 'package:plus_movies/modules/movies/infra/repositories/cache_movies.repository.dart';
 import 'package:plus_movies/modules/movies/infra/repositories/http_movies.repository.dart';
@@ -32,22 +33,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    _movieListPresenter = MovieListStore(
-      ListMovies(
-        cacheMoviesRepository: CacheMoviesRepository(
-          GetStorageService(
-            GetStorage(),
-          ),
-        ),
-        networkMoviesRepository: HttpMoviesRepository(
-          DioService(
-            CustomDio(BaseOptions(
-              baseUrl: movieDBBaseUrl,
-            )),
-          ),
-        ),
-      ),
-    );
+    _movieListPresenter = movieListStoreContainer();
     _searchBarController = TextEditingController();
     _movieListReactionDisposer =
         reaction((_) => _movieListPresenter.listMoviesReaction?.status, (_) {
