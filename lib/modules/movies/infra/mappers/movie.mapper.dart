@@ -16,6 +16,7 @@ class MovieMapper {
         posterPath: map["poster_path"],
         backdropPath: map["backdrop_path"],
         releaseDate: map["release_date"],
+        runtime: map["runtime"],
         revenue: map["revenue"],
         genres: genres.map((e) => GenreMapper.mapToObject(e)).toList(),
         productionCompanies:
@@ -35,6 +36,7 @@ class MovieMapper {
         "backdrop_path": movie.backdropPath,
         "release_date": movie.releaseDate,
         "revenue": movie.revenue,
+        "runtime": movie.runtime,
         "genres": movie.genres
             .map(
               (e) => GenreMapper.objectToMap(e),
