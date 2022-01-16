@@ -6,7 +6,9 @@ import 'package:plus_movies/modules/movies/domain/usecases/list_movies.usecase.d
 import 'package:plus_movies/modules/movies/presentation/presenters/movie_list.presenter.dart';
 part 'movie_list.store.g.dart';
 
-class MovieListStore = _MovieListStoreBase with _$MovieListStore;
+class MovieListStore = _MovieListStoreBase
+    with _$MovieListStore
+    implements MovieListPresenter;
 
 abstract class _MovieListStoreBase with Store implements MovieListPresenter {
   _MovieListStoreBase(this.listMoviesUsecase) {
@@ -22,6 +24,9 @@ abstract class _MovieListStoreBase with Store implements MovieListPresenter {
 
   @observable
   ObservableFuture<Either<CoreError, List<Movie>>>? listMoviesReaction;
+
+  @observable
+  ObservableFuture<Either<CoreError, List<Movie>>>? updateMoviesCacheReaction;
 
   @observable
   ObservableList<Movie> movies = <Movie>[].asObservable();
@@ -53,5 +58,10 @@ abstract class _MovieListStoreBase with Store implements MovieListPresenter {
   void listMovies({bool useCache = true}) {
     listMoviesReaction =
         listMoviesUsecase.call(useCache: useCache).asObservable();
+  }
+
+  void updateMoviesCache() {
+    updateMoviesCacheReaction =
+        listMoviesUsecase.call(useCache: false).asObservable();
   }
 }

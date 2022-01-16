@@ -42,6 +42,25 @@ mixin _$MovieListStore on _MovieListStoreBase, Store {
     });
   }
 
+  final _$updateMoviesCacheReactionAtom =
+      Atom(name: '_MovieListStoreBase.updateMoviesCacheReaction');
+
+  @override
+  ObservableFuture<Either<CoreError, List<Movie>>>?
+      get updateMoviesCacheReaction {
+    _$updateMoviesCacheReactionAtom.reportRead();
+    return super.updateMoviesCacheReaction;
+  }
+
+  @override
+  set updateMoviesCacheReaction(
+      ObservableFuture<Either<CoreError, List<Movie>>>? value) {
+    _$updateMoviesCacheReactionAtom
+        .reportWrite(value, super.updateMoviesCacheReaction, () {
+      super.updateMoviesCacheReaction = value;
+    });
+  }
+
   final _$moviesAtom = Atom(name: '_MovieListStoreBase.movies');
 
   @override
@@ -102,6 +121,7 @@ mixin _$MovieListStore on _MovieListStoreBase, Store {
     return '''
 selectedGenreIndex: ${selectedGenreIndex},
 listMoviesReaction: ${listMoviesReaction},
+updateMoviesCacheReaction: ${updateMoviesCacheReaction},
 movies: ${movies},
 selectedGenre: ${selectedGenre}
     ''';

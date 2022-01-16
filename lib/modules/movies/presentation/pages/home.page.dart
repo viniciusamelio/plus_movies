@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage>
   late final MovieListStore _movieListPresenter;
   late final TextEditingController _searchBarController;
   late final ReactionDisposer _movieListReactionDisposer;
+  late final ReactionDisposer _updateMoviesCacheReactionDisposer;
 
   @override
   void initState() {
@@ -56,6 +57,18 @@ class _HomePageState extends State<HomePage>
             .getOrElse((l) => [])
             .asObservable();
         _movieListPresenter.selectGenre(0);
+        _movieListPresenter.updateMoviesCache();
+      }
+    });
+
+    _updateMoviesCacheReactionDisposer = reaction(
+        (_) => _movieListPresenter.updateMoviesCacheReaction?.status, (_) {
+      if (_movieListPresenter.updateMoviesCacheReaction?.status ==
+          FutureStatus.fulfilled) {
+        _movieListPresenter.movies = _movieListPresenter
+            .listMoviesReaction!.value!
+            .getOrElse((l) => [])
+            .asObservable();
       }
     });
     super.initState();
@@ -64,6 +77,7 @@ class _HomePageState extends State<HomePage>
   @override
   void dispose() {
     _movieListReactionDisposer();
+    _updateMoviesCacheReactionDisposer();
     super.dispose();
   }
 
@@ -155,14 +169,22 @@ class _HomePageState extends State<HomePage>
                       },
                     ).toList();
                     return Expanded(
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        primary: true,
-                        itemCount: filteredMovies.length,
-                        itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: MoviePosterMolecule(
-                            movie: filteredMovies[index],
+                      child: RefreshIndicator(
+                        color: darkGreen01,
+                        onRefresh: () async {
+                          _movieListPresenter.updateMoviesCache();
+                          await _movieListPresenter.updateMoviesCacheReaction!
+                              .whenComplete(() => null);
+                        },
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          // primary: true,
+                          itemCount: filteredMovies.length,
+                          itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: MoviePosterMolecule(
+                              movie: filteredMovies[index],
+                            ),
                           ),
                         ),
                       ),
