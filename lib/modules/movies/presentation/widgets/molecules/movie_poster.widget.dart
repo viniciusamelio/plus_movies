@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:plus_movies/env.dart';
 import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
@@ -34,7 +35,7 @@ class MoviePosterMolecule extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
               fit: BoxFit.fill,
-              image: NetworkImage(
+              image: CachedNetworkImageProvider(
                 "$movieDBImageBaseUrl${movie.posterPath}",
               ),
             ),
