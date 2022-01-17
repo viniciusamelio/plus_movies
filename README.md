@@ -1,16 +1,25 @@
-# plus_movies
+# Plus Movies
 
-A new Flutter project.
+Um projeto de catalogação de filmes lançamentos, utilizando a API TheMovieDB.
 
-## Getting Started
+## Setup
 
-This project is a starting point for a Flutter application.
+Antes de rodar o projeto não se esqueça de copiar o arquivo lib\env.example.dart e renomear para lib\env.dart. Ele contém as variáveis para o funcionamento do ambiente.
 
-A few resources to get you started if this is your first Flutter project:
+### FVM
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Caso utilize o FVM para gerenciar múltiplas versões do Flutter, a versão aqui utilizada é a 2.8.1, revisão 77d935af4d.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Conceitos/Práticas
+
+Quanto ao uso de práticas, padrões, conceitos e tudo mais nesse sentido, em relação ao projeto, vale destacar alguns pontos:
+
+- Usecases elaborados com TDD
+- Uso de cache para funcionalidade de offline first
+- IoC
+- DI com Kiwi
+- Exemplo de Teste de integração do principal fluxo desenvolvido
+- Features desenvolvidas com BDD e Gherkin
+
+
+Espero que você se divirta analisando esse projeto tanto quanto me diverti desenvolvendo
