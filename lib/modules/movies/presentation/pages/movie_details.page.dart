@@ -183,7 +183,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                     child: FilledInfoLabelMolecule(
                       title: "Orçamento",
                       value: MoneyFormatter(
-                        amount: movie.revenue.toDouble(),
+                        amount: movie.budget.toDouble(),
                       ).output.symbolOnLeft,
                     ),
                   ),
