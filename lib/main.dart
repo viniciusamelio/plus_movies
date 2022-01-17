@@ -5,7 +5,7 @@ import 'package:plus_movies/modules/movies/presentation/pages/home.page.dart';
 import 'package:plus_movies/modules/movies/presentation/pages/movie_details.page.dart';
 
 void main() async {
-  GetStorageService.init();
+  await GetStorageService.init();
   runApp(const MyApp());
 }
 

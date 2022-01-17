@@ -6,7 +6,7 @@ class GetStorageService implements CacheService {
   final String prefix = "movie";
   GetStorageService(this._storage);
 
-  static void init() async {
+  static Future<void> init() async {
     await GetStorage.init();
   }
 
@@ -22,7 +22,8 @@ class GetStorageService implements CacheService {
 
   @override
   findAll() {
-    return _storage.getValues();
+    final values = _storage.getValues();
+    return values;
   }
 
   @override
