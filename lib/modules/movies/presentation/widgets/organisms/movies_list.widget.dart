@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:plus_movies/core/presentation/styles/colors.dart';
-import 'package:plus_movies/core/presentation/widgets/molecules/loader.dart';
+import 'package:plus_movies/core/presentation/widgets/molecules/molecules.dart';
 import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
 import 'package:plus_movies/modules/movies/presentation/stores/movie_list.store.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/molecules.dart';
@@ -25,7 +25,9 @@ class MoviesListOrganism extends StatelessWidget {
         return const LoaderMolecule();
       }
       return _movieListPresenter.listMoviesReaction!.value!.match(
-        (l) => Text(l.message),
+        (error) => ErrorViewMolecule(
+          message: error.message,
+        ),
         (movies) {
           _movieListPresenter.filteredMovies =
               _getFilteredMovies().asObservable();
