@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:plus_movies/core/presentation/styles/colors.dart';
-import 'package:plus_movies/core/presentation/widgets/back_button.widget.dart';
+import 'package:plus_movies/core/presentation/widgets/molecules/back_button.widget.dart';
 import 'package:plus_movies/modules/movies/domain/entities/entities.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/bordered_info_label.widget.dart';
 import 'package:plus_movies/modules/movies/presentation/widgets/molecules/filled_info_label.widget.dart';
